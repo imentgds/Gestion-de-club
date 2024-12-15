@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Repartition des Tâches</title>
+    <style>
+        
+    .wrapper{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 110vh;
+        background: rgba(39, 39, 39, 0.4);
+    }
+    .nav{
+        position: fixed;
+        top: 0;
+        display: flex;
+        justify-content: space-around;
+        width: 100%;
+        height: 100px;
+        line-height: 100px;
+        background: linear-gradient(rgba(39,39,39, 0.6), transparent);
+        z-index: 100;
+    }
+    .nav-logo p{
+        color: white;
+        font-size: 25px;
+        font-weight: 600;
+    }
+    .nav-menu ul{
+        display: flex;
+    }
+    .nav-menu ul li{
+        list-style-type: none;
+    }
+    .nav-menu ul li .link{
+        text-decoration: none;
+        font-weight: 500;
+        color: #fff;
+        padding-bottom: 15px;
+        margin: 0 25px;
+    }
+    .link:hover, .active{
+        border-bottom: 2px solid #fff;
+    }
+    .nav-button .btn{
+        width: 130px;
+        height: 40px;
+        font-weight: 500;
+        background: rgba(255, 255, 255, 0.4);
+        border: none;
+        border-radius: 30px;
+        cursor: pointer;
+        transition: .3s ease;
+    }
+    
+    .heading {
+        text-align: center;
+        font-weight: 900;
+        font-size: 30px;
+        color: rgb(16, 137, 211);
+      }
+      
+     
+      .logo img{
+        float: left;
+        width: 150px;
+        height: auto;
+      }
+        body {
+            font-family: Arial, sans-serif;
+        }
+        
+        .container {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 10%;
+            background-image:linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)), url(i8.jpg);
+            background-repeat: no-repeat;
+            background-position: center;
+            height: 500px;
+
+        }
+        
+        .column {
+            flex: 1;
+            padding: 20px;
+           
+            border-radius: 5px;
+        }
+        
+        .task {
+            background-color: #fff;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            cursor: grab;
+        }
+        
+        .task p {
+            margin: 0;
+            font-family: "Times New Roman", Times, serif;
+        }
+        
+        .column h2 {
+            text-align: center;
+            background-image:linear-gradient(rgba(239, 237, 237, 0.529),rgba(136, 136, 136, 0.534));
+            width: 150px;
+            font-family: "Times New Roman", Times, serif;
+        }
+        
+        .column:nth-child(2) {
+            color: #314c69;
+            font-family: "Times New Roman", Times, serif;
+        }
+        
+        .column:nth-child(3) {
+           color: #195a28;
+           text-decoration:double ;
+           font-family: "Times New Roman", Times, serif;
+        }
+        
+        .column:nth-child(4) {
+            color: #681c23;
+            font-family: "Times New Roman", Times, serif;
+        }
+    </style>
+<body>
+         
+    <nav class="nav">
+        <div class="nav-logo">
+          <div class="logo">
+            <img src="i1.png">
+          </div>
+        </div>
+        <div class="nav-menu" id="navMenu">
+            <ul>
+                <li><a href="index.html" class="link active">Home</a></li>
+                <li><a href="clubs.html" class="link">Clubs</a></li>
+                <li><a href="#" class="link">Evenements</a></li>
+                <li><a href="#" class="link">About</a></li>
+            </ul>
+        </div>
+        
+    </nav>
+    <div class="container">
+        <div class="column" id="todo-column">
+            <h2>A faire</h2>
+            <div class="task" draggable="true">
+                <p>Tâche 1</p>
+            </div>
+            <div class="task" draggable="true">
+                <p>Tâche 2</p>
+            </div>
+        </div>
+        <div class="column" id="in-progress-column">
+            <h2>En cours</h2>
+        </div>
+        <div class="column" id="done-column">
+            <h2>Terminées</h2>
+        </div>
+        <div class="column" id="cancelled-column">
+            <h2>Annulées</h2>
+        </div>
+    </div>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const tasks = document.querySelectorAll('.task');
+        const columns = document.querySelectorAll('.column');
+    
+        let draggedTask = null;
+    
+        tasks.forEach(task => {
+            task.addEventListener('dragstart', function() {
+                draggedTask = this;
+                setTimeout(() => {
+                    this.style.display = 'none';
+                }, 0);
+            });
+    
+            task.addEventListener('dragend', function() {
+                draggedTask = null;
+                this.style.display = 'block';
+            });
+        });
+    
+        columns.forEach(column => {
+            column.addEventListener('dragover', function(e) {
+                e.preventDefault();
+            });
+    
+            column.addEventListener('dragenter', function(e) {
+                e.preventDefault();
+                this.style.backgroundColor = 'rgba(0, 0, 0, 0.2)';
+            });
+    
+            column.addEventListener('dragleave', function() {
+                this.style.backgroundColor = '';
+            });
+    
+            column.addEventListener('drop', function() {
+                this.appendChild(draggedTask);
+                this.style.backgroundColor = '';
+            });
+        });
+    });
+    
+</script>
+</head>
+</body>
+</html>
